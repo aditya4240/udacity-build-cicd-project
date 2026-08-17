@@ -3,14 +3,13 @@ name: Frontend Continuous Integration
 on:
   pull_request:
     branches:
-      - main
+      - master
     paths:
       - 'starter/frontend/**'
 
   workflow_dispatch:
 
 jobs:
-
   lint:
     runs-on: ubuntu-latest
 
@@ -33,7 +32,6 @@ jobs:
         working-directory: starter/frontend
         run: npm run lint
 
-
   test:
     runs-on: ubuntu-latest
 
@@ -54,8 +52,7 @@ jobs:
 
       - name: Run tests
         working-directory: starter/frontend
-        run: npm run test
-
+        run: CI=true npm test
 
   build:
     needs: [lint, test]
@@ -75,10 +72,6 @@ jobs:
       - name: Install dependencies
         working-directory: starter/frontend
         run: npm ci
-
-      - name: Run tests
-        working-directory: starter/frontend
-        run: npm run test
 
       - name: Build Docker image
         working-directory: starter/frontend
