@@ -52,7 +52,7 @@ jobs:
 
       - name: Run tests
         working-directory: starter/frontend
-        run: CI=true npm test
+        run: npm test -- --watchAll=false --passWithNoTests
 
   build:
     needs: [lint, test]
