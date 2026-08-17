@@ -1,15 +1,9 @@
 name: Backend Continuous Integration
 
 on:
-  push:
-    branches:
-      - master
-    paths:
-      - 'starter/backend/**'
-
   pull_request:
     branches:
-      - master
+      - main
     paths:
       - 'starter/backend/**'
 
@@ -33,7 +27,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: starter/backend
-        run: pipenv install --deploy --ignore-pipfile
+        run: pipenv install --dev --deploy
 
       - name: Run lint
         working-directory: starter/backend
@@ -56,7 +50,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: starter/backend
-        run: pipenv install --deploy --ignore-pipfile
+        run: pipenv install --dev --deploy
 
       - name: Run tests
         working-directory: starter/backend
@@ -72,18 +66,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-
-      - name: Install Pipenv
-        run: pip install pipenv
-
-      - name: Install dependencies
+      - name: Build Docker image
         working-directory: starter/backend
-        run: pipenv install --deploy --ignore-pipfile
-
-      - name: Build backend
-        working-directory: starter/backend
-        run: python -m compileall .
+        run: docker build -t backend-app .
